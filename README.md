@@ -1,2 +1,3 @@
-# tic_tac_toe
-Tic Tac Toe for The Odin Project
+# "Tic Tac Toe" for The Odin Project
+
+Made by **roznerx** (ignaciorosner@gmail.com)

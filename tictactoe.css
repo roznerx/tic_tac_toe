@@ -10,12 +10,8 @@
     font-style: normal;
 }
 
-* {
-    font-family: "8-bit_arcade_inmedium" !important;
-}
-
 body {
-    background:  #0f0f1b; 
+    background: #0f0f1b; 
     padding-bottom: 30px;
     padding-top: 30px;
     overflow: hidden;
@@ -33,8 +29,8 @@ body {
     left: 0;
     right: 0;
     height: 120px; 
-    background:   #0f0f1b  ;
-    border-bottom: 5px solid #565a75   ;
+    background: #0f0f1b;
+    border-bottom: 5px solid #565a75;
 }
 
 h1 {
@@ -42,34 +38,174 @@ h1 {
     display: inline-block;
     margin-top: 10px;
     margin-left: 355px;
-    color:  #565a75   ;
+    font-family: "8-bit_arcade_inmedium";
+    color: #565a75;
     font-size: 180px;
     top: -70px;
+}
 
-    
+#container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+#scores {
+    order: 0;
+    margin-left: 60px;
+    margin-top: 150px;
+    height: 500px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    font-family: "8-bit_arcade_inmedium";
+    color: #565a75;
+    font-size: 35px;
+}
+
+#player1 {
+    display: flex;
+    flex-direction: column;    
+    flex-wrap: wrap;
+}
+
+#display1A {
+    display: flex;
+    flex-direction: row;    
+    flex-wrap: wrap;
+    margin-top: -100px;
+}
+
+#player1namedisplay {
+    margin-left: 60px;
+}
+
+#player1name {
+    margin-left: 25px;
+}
+
+#display1B {
+    display: flex;
+    flex-direction: row;    
+    flex-wrap: wrap;
+    margin-top: -100px;
+}
+
+#player1scoredisplay {
+    margin-left: 60px;    
+}
+
+#playeronescore {
+    margin-left: 25px;
+}
+
+#player2 {
+    margin-top: -45px;
+    display: flex;
+    flex-direction: column;    
+    flex-wrap: wrap;
+}
+
+#display2A {
+    display: flex;
+    flex-direction: row;    
+    flex-wrap: wrap;
+    margin-top: -100px;
+}
+
+#player2namedisplay {
+    margin-left: 60px;
+}
+
+#player2name {
+    margin-left: 25px;
+}
+
+#display2B {
+    display: flex;
+    flex-direction: row;    
+    flex-wrap: wrap;
+    margin-top: -100px;
+}
+
+#player2scoredisplay {
+    margin-left: 60px;    
+}
+
+#playertwoscore {
+    margin-left: 25px;
+}
+
+#board {
+    order: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .game-board{
-    margin-left: 520px;
-    margin-top: 120px;
+    margin-left: -50px;
+    margin-top: 150px;
 	width: 500px;
 	height: 500px;
-    background-color: #fafbf6 ;
-    /*color: #fff; */
-    border: 6px solid   #565a75     ;
+    background-color: #fafbf6;
+    border: 6px solid #565a75;
     border-radius: 10px;
 	display: grid;
 	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 
 .box{
-    border: 6px solid   #565a75  ;
+    border: 6px solid #565a75;
     border-radius: 2px;
     font-family: Helvetica;
     font-weight: bold;
-    font-size: 4em;
+    font-size: 8em;
     display: flex;
     justify-content: center;
     align-items: center;
-    color:   #c6b7be;
+    color: #c6b7be;
 }
+
+#gamemode {
+    order: 2;
+    margin-left: 130px;
+    margin-top: 180px;
+    height: 500px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+#gamemodetitle {
+    display: flex;
+    flex-direction: column;    
+    flex-wrap: wrap;
+    font-family: "8-bit_arcade_inmedium";
+    color: #565a75;
+    font-size: 40px;
+}
+
+#modebuttons {
+    display: flex;
+    flex-direction: column;    
+    flex-wrap: wrap;
+    font-size: 35px;
+}
+
+#vsplayer2 {
+    margin-top: -50px;
+    margin-left: 30px;
+    
+}
+
+#vsCPU {
+    margin-top: -50px;
+    margin-left: 30px;
+}
+
+.selectbutton:hover {
+    cursor: pointer; 
+    text-shadow: 2px 0 0 #fafbf6, -2px 0 0 #fafbf6, 0 2px 0 #fafbf6, 0 -2px 0 #fafbf6, 1px 1px #fafbf6, -1px -1px 0 #fafbf6, 1px -1px 0 #fafbf6, -1px 1px 0 #fafbf6;
+}   

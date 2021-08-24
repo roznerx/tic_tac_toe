@@ -8,21 +8,6 @@ let playerOneTurn = "";
 let playerTwoTurn = "";
 
 const box = document.getElementsByClassName("box");
-for (let i = 0; i < box.length; i++) {
-    box[i].addEventListener("click", () => {
-        if (box[i].innerHTML == "") {
-            if (playerOneTurn == "ON" && playerTwoTurn == "OFF") {
-                box[i].innerHTML = "X";
-                playerOneTurn = "OFF";
-                playerTwoTurn = "ON";
-            } else if (playerTwoTurn == "ON" && playerOneTurn == "OFF") {
-                box[i].innerHTML = "O";
-                playerOneTurn = "ON";
-                playerTwoTurn = "OFF";
-            }
-        }
-    });
-}
 
 const box0 = document.getElementById("box0");
 const box1 = document.getElementById("box1");
@@ -36,11 +21,11 @@ const box8 = document.getElementById("box8");
 
 const gameBoard = {
     board: [
-    box0, box1, box2, 
-    box3, box4, box5, 
-    box6, box7, box8
+        box0, box1, box2, 
+        box3, box4, box5, 
+        box6, box7, box8
     ],
-    winConditions: [
+    segments: [
         //horizontal
         [box0, box1, box2],
         [box3, box4, box5],
@@ -52,7 +37,7 @@ const gameBoard = {
         //diagonal
         [box0, box4, box8],
         [box6, box4, box2]
-    ]
+    ],
 };
 
 function createPlayer(name) {
@@ -64,22 +49,51 @@ function createPlayer(name) {
     }
 };
 
+function movement(p1, p2) {
+    for (let i = 0; i < box.length; i++) {
+        box[i].addEventListener("click", () => {
+            if (box[i].innerHTML == "") {
+                if (playerOneTurn == "ON" && playerTwoTurn == "OFF") {
+                    box[i].innerHTML = "X";
+                    playerOneTurn = "OFF";
+                    playerTwoTurn = "ON";
+                } else if (playerTwoTurn == "ON" && playerOneTurn == "OFF") {
+                    box[i].innerHTML = "O";
+                    playerOneTurn = "ON";
+                    playerTwoTurn = "OFF";
+                }
+            }
+    
+    
+            if (box0.innerHTML == "X" && box1.innerHTML == "X" && box2.innerHTML == "X") {
+                console.log("WORKINGOK");
+                playerOneScore.innerHTML +=1;
+            }
+    
+    
+    
+        });
+    }
+};
+
+
+
+
+
 function cleanBoard() {
     for (let i = 0; i < box.length; i++) {
         box[i].innerHTML = "";
     }
 };
 
-function winningConditions() {
-    if (box0.innerHTML == "X" && box1.innerHTML == "X" && box2.innerHTML == "X") {
-        console.log("OK");
-        alert("WORKINGOK");
+function turnChanger() {
+    if (playerOneTurn == "" && playerTwoTurn == "") {
+        playerOneTurn = "ON";
+        playerTwoTurn = "OFF";
     }
 };
 
 function vsPlayerTwoMode(p1, p2) {
-
-    cleanBoard()
     
     p1 = createPlayer();
     p1.name = prompt("Insert Player 1 name");
@@ -91,14 +105,11 @@ function vsPlayerTwoMode(p1, p2) {
     playerTwoName.innerHTML = p2.name;
     playerTwoScore.innerHTML = "0";
 
-    if (playerOneTurn == "" && playerTwoTurn == "") {
-        playerOneTurn = "ON";
-        playerTwoTurn = "OFF";
-    }
+    movement();
 
-    winningConditions();
-
+    turnChanger();
 };
+
 
 const vsPlayerTwo = document.getElementById("vsplayer2");
 vsPlayerTwo.addEventListener("click", () => {
@@ -115,6 +126,7 @@ function vsCPUMode() {
 const vsCPU = document.getElementById("vsCPU");
 vsCPU.addEventListener("click", () => {
 
+    cleanBoard();
     vsCPUMode();
 
 })

@@ -9,13 +9,27 @@
     <script type="text/javascript" src="tictactoe.js" async></script>
 </head>
 <body>
-
     <div id="header">
         <h1>TIC-TAC-TOE</h1>
     </div>
-
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-window" id="modal-window">
+                <div class="modal-titlebar">
+                    <span class="modal-title">Welcome to Tic-Tac-Toe</span>
+                    </div>
+                <div class="modal-content" id="modal-content">
+                    Please select a game mode
+                </div>
+                <div id="game-buttons">
+                    <h2 class="popUpButton" type="button" id="popUpVs">VS Player 2</h2>
+                    <h2 class="popUpButton" type="button" id="popUpCpu">VS CPU</h2>
+                </div>
+                <div id="modal-info">
+                    You can reset the game mode during the match by clicking on any of the buttons to the right
+                </div>
+            </div>
+    </div>
     <div id="container">
-
         <div id="scores">
             <div id="player1">
                 <h2>Player 1</h2>
@@ -26,10 +40,8 @@
                 <div id="display1B">
                     <h2 id="player1scoredisplay">Score - </h2>
                     <h2 id="playeronescore"></h2>
-                </div>
-                
-            </div>
-            
+                </div>  
+            </div>            
             <div id="player2">
                 <h2>Player 2</h2>
                 <div id="display2B">
@@ -40,10 +52,8 @@
                     <h2 id="player2scoredisplay">Score - </h2>
                     <h2 id="playertwoscore"></h2>
                 </div>
-            </div>
-            
-        </div>
-    
+            </div>            
+        </div>    
         <div id="board">
             <div class="game-board">
                 <div class="box" id="box0"></div>
@@ -57,25 +67,15 @@
                 <div class="box" id="box8"></div>
             </div>
         </div>
-
         <div id="gamemode">
-
             <div id="gamemodetitle">
                 <h2>Game Mode</h2>
-
                 <div id="modebuttons">
                     <h2 class="selectbutton" type="button" id="vsplayer2">VS Player 2</h2>
                     <h2 class="selectbutton" type="button" id="vsCPU">VS CPU</h2>
-                </div>
-                
+                </div>               
             </div>
-
         </div>
-
-
-    </div>
-    
-    
-    
+    </div>    
 </body>
 </html>

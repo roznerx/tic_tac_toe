@@ -44,6 +44,152 @@ h1 {
     top: -70px;
 }
 
+
+
+.modal-overlay {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-window {
+	width: 700px;
+    height: 500px;
+	background: #565a75;
+	border: 1px solid #fafbf6 ;
+	font-size: 16px;
+	box-shadow: 0 0 15px  #0f0f1b;
+}
+
+.modal-titlebar {
+	height: 70px;
+	background: #0f0f1b;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.modal-title {
+	margin-left: 100px;
+    font-family: "8-bit_arcade_inmedium";
+    font-size: 50px;
+	color: #565a75;
+}
+
+.modal-content {
+    margin-left: 75px;
+    padding: 15px;
+	font-family: "8-bit_arcade_inmedium";
+    font-size: 45px;
+    color: #0f0f1b;
+}
+
+#game-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+#popUpVs {
+    text-align: center;
+    width: 220px;
+    height: 50px;
+    margin-left: 100px;
+    font-family: "8-bit_arcade_inmedium";
+    font-size: 35px;
+    border: 1px solid #c6b7be ;
+    color: #565a75;
+    background-color: #0f0f1b;
+}
+
+#popUpCpu{
+    text-align: center;
+    width: 150px;
+    height: 50px;
+    margin-left: 90px;
+    font-family: "8-bit_arcade_inmedium";
+    font-size: 35px;
+    border: 1px solid  #c6b7be ;
+    color: #565a75;
+    background-color: #0f0f1b;
+}
+
+.popUpButton:hover{
+    cursor: pointer; 
+    box-shadow: 2px 0 0 #fafbf6  , -2px 0 0 #fafbf6, 0 2px 0 #fafbf6, 0 -2px 0 #fafbf6, 1px 1px #fafbf6, -1px -1px 0 #fafbf6, 1px -1px 0 #fafbf6, -1px 1px 0 #fafbf6;
+}
+
+#modal-info{
+    text-align: center;
+    padding: 15px;
+	font-family: "8-bit_arcade_inmedium";
+    font-size: 30px;
+    color: #0f0f1b;
+}
+
+#p1NameBar {
+    width: 120px;
+    height: 50px;
+    margin-left: 230px;
+    font-family: "8-bit_arcade_inmedium";
+    font-size: 30px;
+    color: #fafbf6;
+    background-color: #0f0f1b;
+
+}
+
+#popUpP1NameOk {
+    margin-top: inherit;
+    margin-left: 15px;
+    height: 53px;
+    width: 50px;
+    font-family: "8-bit_arcade_inmedium";
+    font-size: 40px;
+    text-align: center;
+    color: #565a75;
+    border: 1px solid #c6b7be;
+    background-color: #0f0f1b;
+}
+
+#popUpP1NameOk:hover{
+    cursor: pointer; 
+    box-shadow: 2px 0 0 #fafbf6  , -2px 0 0 #fafbf6, 0 2px 0 #fafbf6, 0 -2px 0 #fafbf6, 1px 1px #fafbf6, -1px -1px 0 #fafbf6, 1px -1px 0 #fafbf6, -1px 1px 0 #fafbf6;
+}
+
+#p2NameBar {
+    width: 120px;
+    height: 50px;
+    margin-left: 230px;
+    font-family: "8-bit_arcade_inmedium";
+    font-size: 30px;
+    color: #fafbf6;
+    background-color: #0f0f1b;
+
+}
+
+#popUpP2NameOk {
+    margin-top: inherit;
+    margin-left: 15px;
+    height: 53px;
+    width: 50px;
+    font-family: "8-bit_arcade_inmedium";
+    font-size: 40px;
+    text-align: center;
+    color: #565a75;
+    border: 1px solid #c6b7be;
+    background-color: #0f0f1b;
+}
+
+#popUpP2NameOk:hover{
+    cursor: pointer; 
+    box-shadow: 2px 0 0 #fafbf6  , -2px 0 0 #fafbf6, 0 2px 0 #fafbf6, 0 -2px 0 #fafbf6, 1px 1px #fafbf6, -1px -1px 0 #fafbf6, 1px -1px 0 #fafbf6, -1px 1px 0 #fafbf6;
+}
+
 #container {
     display: flex;
     flex-direction: row;
@@ -208,4 +354,4 @@ h1 {
 .selectbutton:hover {
     cursor: pointer; 
     text-shadow: 2px 0 0 #fafbf6, -2px 0 0 #fafbf6, 0 2px 0 #fafbf6, 0 -2px 0 #fafbf6, 1px 1px #fafbf6, -1px -1px 0 #fafbf6, 1px -1px 0 #fafbf6, -1px 1px 0 #fafbf6;
-}   
+}

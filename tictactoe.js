@@ -71,6 +71,50 @@ const gameBoard = {
 Instead, I went for a more straightforward yet repetitive working method. I'm sure it does not follow DRY correctly, but it works.
 */
 
+//RESULT POPUP
+
+function resultPopUp(result, player) {
+
+    let resultDivOverlay = document.createElement("div");
+    resultDivOverlay.style = "position: fixed;	width: 100vw; height: 100vh; top: 0; left: 0; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center";
+    document.body.appendChild(resultDivOverlay);
+
+    let resultDiv = document.createElement("div");
+    resultDiv.style = "width: 300px; height: 200px; background: #565a75; border: 1px solid #fafbf6; font-size: 16px; box-shadow: 0 0 15px  #0f0f1b;";
+    resultDivOverlay.appendChild(resultDiv);
+
+    let resultDivTitleBar = document.createElement("div");
+    resultDivTitleBar.style = "height: 70px; background: #0f0f1b; display: flex; align-items: center; justify-content: space-between;";
+    resultDiv.appendChild(resultDivTitleBar);
+    
+    let resultDivTitle = document.createElement("span");
+    resultDivTitle.style = "margin-left: 45px; margin-bottom: 10px; font-family: '8-bit_arcade_inmedium'; font-size: 70px; color: #565a75;";
+    resultDivTitle.innerHTML = "RESULT";
+    resultDivTitleBar.appendChild(resultDivTitle);
+    
+    let resultDivContent = document.createElement("div");
+    resultDivContent.style = "line-height: 35px; text-align: center; margin-left: 10px; margin-top: -10px; padding: 15px; font-family: '8-bit_arcade_inmedium'; font-size: 45px; color: #0f0f1b;";
+    resultDivContent.innerHTML = "";
+    resultDiv.appendChild(resultDivContent);
+
+    let resultOkButton = document.createElement("h3");
+    resultOkButton.type = "button";
+    resultOkButton.innerHTML = "OK";
+    resultOkButton.style = "cursor: pointer; margin-left: 130px; margin-top: -5px; height: 30px; width: 40px; font-family: '8-bit_arcade_inmedium'; font-size: 25px; text-align: center; color: #565a75; border: 1px solid #c6b7be; background-color: #0f0f1b;";
+    resultDiv.appendChild(resultOkButton);
+
+    resultOkButton.addEventListener("click", () => {
+        document.body.removeChild(resultDivOverlay);
+        cleanBoard();
+    });
+
+    if (result === "win") {
+        resultDivContent.innerHTML = player + " WINS";
+    } else if (result === "draw") {
+        resultDivContent.innerHTML = "DRAW";
+    };
+}
+
 function winCon() {
     if (
         //horizontal
@@ -84,9 +128,9 @@ function winCon() {
         //diagonal
         box0.innerHTML == "X" && box4.innerHTML == "X" && box8.innerHTML == "X" ||
         box6.innerHTML == "X" && box4.innerHTML == "X" && box2.innerHTML == "X") {
-            alert(playerOneName.innerHTML + " wins!");
+            resultPopUp("win", playerOneName.innerHTML);
             playerOneScore.innerHTML = parseInt(playerOneScore.innerHTML) + 1;
-            cleanBoard();
+            //cleanBoard();
             playerOneTurn = "ON";
             playerTwoTurn = "OFF";
     } else if (
@@ -101,17 +145,16 @@ function winCon() {
         //diagonal
         box0.innerHTML == "O" && box4.innerHTML == "O" && box8.innerHTML == "O" ||
         box6.innerHTML == "O" && box4.innerHTML == "O" && box2.innerHTML == "O") {
-            alert(playerTwoName.innerHTML + " wins!");
+            resultPopUp("win", playerTwoName.innerHTML);
             playerTwoScore.innerHTML = parseInt(playerTwoScore.innerHTML) + 1;
-            cleanBoard();
+            //cleanBoard();
             playerOneTurn = "ON";
             playerTwoTurn = "OFF";
     } else if (
         box0.innerHTML !== "" && box1.innerHTML !== "" && box2.innerHTML !== "" &&
         box3.innerHTML !== "" && box4.innerHTML !== "" && box5.innerHTML !== "" &&
         box6.innerHTML !== "" && box7.innerHTML !== "" && box8.innerHTML !== "") {
-            alert("Draw!");
-            cleanBoard();
+            resultPopUp("draw");
             playerOneTurn = "ON";
             playerTwoTurn = "OFF";
     }
@@ -136,52 +179,18 @@ function movement() {
     }
 };
 
-function vsPlayerTwoMode(p1, p2) {
-
-    cleanBoard()
-    
-    p1 = createPlayer();
-    p1.name = playerOneName.innerHTML;
-    playerOneScore.innerHTML = "0";
-
-    p2 = createPlayer();
-    p2.name = playerTwoName.innerHTML;
-    playerTwoScore.innerHTML = "0";
-
-    movement();
-    turnChanger();
+function vsCpuMovement() {
 };
 
-const vsPlayerTwo = document.getElementById("vsplayer2");
-vsPlayerTwo.addEventListener("click", () => {
+
+/*
+function computerPlay() {
+
+    let random = [box0, box1, box2, box3, box4, box5, box6, box7, box8];
+    return random[Math.floor(Math.random() * 9)];
     
-    vsPlayerTwoMode();
-        
-});
-
-function vsCPUMode() {
-
-    cleanBoard()
-    
-    p1 = createPlayer();
-    p1.name = playerOneName.innerHTML;
-    playerOneScore.innerHTML = "0";
-
-    p2 = createPlayer();
-    p2.name = "CPU"
-    playerTwoName.innerHTML = p2.name;
-    playerTwoScore.innerHTML = "0";
-
-    console.log("NOTYETCODED");
-}
-
-const vsCPU = document.getElementById("vsCPU");
-vsCPU.addEventListener("click", () => {
-
-    cleanBoard();
-    vsCPUMode();
-
-})
+};
+*/
 
 //POPUP
 
@@ -193,8 +202,9 @@ popUpVs.addEventListener("click", () => {
     
     let p1NameBar = document.createElement("input");
     p1NameBar.id = "p1NameBar";
+    p1NameBar.maxLength = "6";
     gameButtons.appendChild(p1NameBar);
-        
+    
     let p1NameOk = document.createElement("h2");
     p1NameOk.class = "popUpButton";
     p1NameOk.type = "button";
@@ -212,6 +222,7 @@ popUpVs.addEventListener("click", () => {
 
         let p2NameBar = document.createElement("input");
         p2NameBar.id = "p2NameBar";
+        p2NameBar.maxLength = "6";
         gameButtons.appendChild(p2NameBar);
         
         let p2NameOk = document.createElement("h2");
@@ -238,6 +249,7 @@ popUpCpu.addEventListener("click", () => {
     
     let p1NameBar = document.createElement("input");
     p1NameBar.id = "p1NameBar";
+    p1NameBar.maxLength = "6";
     gameButtons.appendChild(p1NameBar);
         
     let p1NameOk = document.createElement("h2");
@@ -253,3 +265,55 @@ popUpCpu.addEventListener("click", () => {
         vsCPUMode();
     });
 });
+
+//Game modes
+
+function vsPlayerTwoMode(p1, p2) {
+
+    cleanBoard()
+    
+    p1 = createPlayer();
+    p1.name = playerOneName.innerHTML;
+    playerOneScore.innerHTML = "0";
+
+    p2 = createPlayer();
+    p2.name = playerTwoName.innerHTML;
+    playerTwoScore.innerHTML = "0";
+
+    movement();
+    turnChanger();
+
+};
+
+const vsPlayerTwo = document.getElementById("vsplayer2");
+vsPlayerTwo.addEventListener("click", () => {
+    
+    vsPlayerTwoMode();
+    
+});
+
+function vsCPUMode() {
+
+    cleanBoard()
+    
+    p1 = createPlayer();
+    p1.name = playerOneName.innerHTML;
+    playerOneScore.innerHTML = "0";
+
+    p2 = createPlayer();
+    p2.name = "CPU"
+    playerTwoName.innerHTML = p2.name;
+    playerTwoScore.innerHTML = "0";
+
+    //console.log("NOTYETCODED");
+    vsCpuMovement()
+    turnChanger();
+}
+
+const vsCPU = document.getElementById("vsCPU");
+vsCPU.addEventListener("click", () => {
+
+    cleanBoard();
+    vsCPUMode();
+
+})

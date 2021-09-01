@@ -179,15 +179,45 @@ function movement() {
     }
 };
 
+function computerPlay() {
+    let random = [box0, box1, box2, box3, box4, box5, box6, box7, box8];
+    let randomBox = random[Math.floor(Math.random() * random.length)];
+    if (randomBox.innerHTML == "") {
+        randomBox.innerHTML = "O";
+    } else if (randomBox.innerHTML == "X" || randomBox.innerHTML == "O") {
+        computerPlay();
+    } else {
+        //TOO MUCH RECURSION, solucionar que ocurre cuando el tablero está lleno
+    }
+};
+
 function vsCpuMovement() {
+    for (let i = 0; i < box.length; i++) {
+        box[i].addEventListener("click", () => {
+            if (box[i].innerHTML == "") {
+                box[i].innerHTML = "X";               
+                computerPlay();
+            }
+        winCon();
+        });
+    }
 };
 
 
+
+
 /*
+
+let random = [box0, box1, box2, box3, box4, box5, box6, box7, box8];
+let randomBox = random[Math.floor(Math.random() * random.length)];
+if (randomBox.innerHTML == "") {
+    randomBox.innerHTML = "O";
+}
+
+
 function computerPlay() {
 
-    let random = [box0, box1, box2, box3, box4, box5, box6, box7, box8];
-    return random[Math.floor(Math.random() * 9)];
+    return 
     
 };
 */
@@ -305,9 +335,9 @@ function vsCPUMode() {
     playerTwoName.innerHTML = p2.name;
     playerTwoScore.innerHTML = "0";
 
-    //console.log("NOTYETCODED");
-    vsCpuMovement()
+    vsCpuMovement();
     turnChanger();
+
 }
 
 const vsCPU = document.getElementById("vsCPU");

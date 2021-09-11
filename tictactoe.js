@@ -127,7 +127,7 @@ const rules = {
     },
 }
 
-// MOVEMESETS
+// MOVESETS
 
 const movements = {
     movement() {
@@ -186,10 +186,13 @@ const modeSelector = {
         /* 2 */ modalContent = document.getElementById("modal-content"),
         /* 3 */ gameButtons = document.getElementById("game-buttons"),
         /* 4 */ popUpVs = document.getElementById("popUpVs"),
-        /* 5 */ popUpCpu = document.getElementById("popUpCpu"),       
+        /* 5 */ popUpCpu = document.getElementById("popUpCpu"),     
+        /* 6 */ vsPlayerTwo = document.getElementById("vsplayer2"),
+        /* 7 */ vsCPU = document.getElementById("vsCPU"),
     ],
     gameMode(mode) {
-        if (mode === "vsPlayerTwoMode") {
+        if (mode === "") {
+        } else if (mode === "vsPlayerTwoMode") {
             gameBoard.cleanBoard();
             p1 = playerCreator.createPlayer();
             p1.name = playerCreator.names[0].innerHTML;
@@ -210,50 +213,22 @@ const modeSelector = {
             playerCreator.scores[1].innerHTML = "0";
             movements.vsCpuMovement();
             rules.turnChanger();
-        } else {
-            return
         }
     },
-    popUpVsMode() {
-        modeSelector.constants[2].innerHTML = "Insert Player 1 name";
-        modeSelector.constants[2].style.marginLeft = "130px";
-        modeSelector.constants[4].remove();
-        modeSelector.constants[5].remove();
-        let p1NameBar = document.createElement("input");
-        p1NameBar.id = "p1NameBar";
-        p1NameBar.maxLength = "6";
-        modeSelector.constants[3].appendChild(p1NameBar);
-        let p1NameOk = document.createElement("h2");
-        p1NameOk.className = "popUpButton";
-        p1NameOk.type = "button";
-        p1NameOk.id = "popUpP1NameOk";
-        p1NameOk.innerHTML = "OK";
-        modeSelector.constants[3].appendChild(p1NameOk);
-        p1NameOk.addEventListener("click", () => {
-            playerCreator.names[0].innerHTML = p1NameBar.value;
-            modeSelector.constants[2].innerHTML = "Insert Player 2 name";
-            modeSelector.constants[2].style.marginLeft = "130px";
-            p1NameBar.remove();
-            p1NameOk.remove();
-            let p2NameBar = document.createElement("input");
-            p2NameBar.id = "p2NameBar";
-            p2NameBar.maxLength = "6";
-            modeSelector.constants[3].appendChild(p2NameBar);
-            let p2NameOk = document.createElement("h2");
-            p2NameOk.className = "popUpButton";
-            p2NameOk.type = "button";
-            p2NameOk.id = "popUpP2NameOk";
-            p2NameOk.innerHTML = "OK";
-            modeSelector.constants[3].appendChild(p2NameOk);
-            p2NameOk.addEventListener("click", () => {
-                playerCreator.names[1].innerHTML= p2NameBar.value;
-                document.body.removeChild(modalOverlay);
-                modeSelector.gameMode("vsPlayerTwoMode");
-            })
-        });
-    },
-    popUpCPUMode() {
-        modeSelector.constants[2].innerHTML = "Insert Player name";
+    reset() {
+        gameBoard.cleanBoard();
+        modeSelector.gameMode("");
+        playerCreator.names[0].innerHTML = "0";
+        playerCreator.names[1].innerHTML = "0";
+        playerCreator.scores[0].innerHTML = "0";
+        playerCreator.scores[1].innerHTML = "0";
+    },    
+    popUpMode(mode) {
+        if (mode === "popUpVsMode") {
+            modeSelector.constants[2].innerHTML = "Insert Player 1 name";
+        } else if (mode === "popUpCPUMode") {
+            modeSelector.constants[2].innerHTML = "Insert Player name";
+        }
         modeSelector.constants[2].style.marginLeft = "130px";
         modeSelector.constants[4].remove();
         modeSelector.constants[5].remove();
@@ -268,152 +243,146 @@ const modeSelector = {
         p1NameOk.innerHTML = "OK";
         modeSelector.constants[3].appendChild(p1NameOk);
         p1NameOk.addEventListener("click", () => {
-            playerCreator.names[0].innerHTML = p1NameBar.value;
-            document.body.removeChild(modalOverlay);
-            modeSelector.gameMode("vsCPUMode");
+            if (mode === "popUpVsMode") {
+                playerCreator.names[0].innerHTML = p1NameBar.value;
+                modeSelector.constants[2].innerHTML = "Insert Player 2 name";
+                modeSelector.constants[2].style.marginLeft = "130px";
+                p1NameBar.remove();
+                p1NameOk.remove();
+                let p2NameBar = document.createElement("input");
+                p2NameBar.id = "p2NameBar";
+                p2NameBar.maxLength = "6";
+                modeSelector.constants[3].appendChild(p2NameBar);
+                let p2NameOk = document.createElement("h2");
+                p2NameOk.className = "popUpButton";
+                p2NameOk.type = "button";
+                p2NameOk.id = "popUpP2NameOk";
+                p2NameOk.innerHTML = "OK";
+                modeSelector.constants[3].appendChild(p2NameOk);
+                p2NameOk.addEventListener("click", () => {
+                    playerCreator.names[1].innerHTML= p2NameBar.value;
+                    document.body.removeChild(modalOverlay);
+                    modeSelector.gameMode("vsPlayerTwoMode");                    
+                });
+            } else if (mode === "popUpCPUMode") {
+                playerCreator.names[0].innerHTML = p1NameBar.value;
+                document.body.removeChild(modalOverlay);
+                modeSelector.gameMode("vsCPUMode");
+            }
         });
     },
+    inGameMode(mode) {
+        modeSelector.reset()
+        let inGameOverlay = document.createElement("div");
+        inGameOverlay.id = "inGameOverlay";
+        inGameOverlay.className = "modal-overlay";
+        document.body.appendChild(inGameOverlay);
+        let inGameWindow = document.createElement("div");
+        inGameWindow.className = "modal-window";
+        inGameWindow.id = "inGameWindow";
+        inGameOverlay.appendChild(inGameWindow);
+        let inGameTitleBar = document.createElement("div");
+        inGameTitleBar.className = "modal-titlebar";
+        inGameTitleBar.id = "inGameTitleBar";
+        inGameWindow.appendChild(inGameTitleBar);
+        let inGameTitle = document.createElement("span");
+        inGameTitle.className = "modal-title";
+        inGameTitle.id = "inGameTitle";
+        if (mode === "VSP2") {
+            inGameTitle.innerHTML = "VS Player 2 Mode";
+            inGameTitle.style.marginLeft = "160px";
+            inGameTitleBar.appendChild(inGameTitle);
+            let inGameContent = document.createElement("div");
+            inGameContent.className = "modal-content";
+            inGameContent.id = "inGameContent";
+            inGameContent.innerHTML = "Insert Player 1 name";
+            inGameContent.style.marginLeft = "120px";
+            inGameWindow.appendChild(inGameContent);
+            let inGameButtons = document.createElement("div");
+            inGameButtons.className = "modal-buttons";
+            inGameButtons.id = "inGameButtons";
+            inGameWindow.appendChild(inGameButtons);
+            let inGameP1NameBar = document.createElement("input");
+            inGameP1NameBar.id = "p1NameBar";
+            inGameP1NameBar.maxLength = "6";
+            inGameButtons.appendChild(inGameP1NameBar);
+            let inGameP1NameOk = document.createElement("h2");
+            inGameP1NameOk.className = "popUpButton";
+            inGameP1NameOk.type = "button";
+            inGameP1NameOk.id = "popUpP1NameOk";
+            inGameP1NameOk.innerHTML = "OK";
+            inGameButtons.appendChild(inGameP1NameOk);
+            inGameP1NameOk.addEventListener("click", () => {
+                playerCreator.names[0].innerHTML = inGameP1NameBar.value;
+                inGameContent.innerHTML = "Insert Player 2 name";
+                inGameContent.style.marginLeft = "130px";
+                inGameP1NameBar.remove();
+                inGameP1NameOk.remove();
+                let inGameP2NameBar = document.createElement("input");
+                inGameP2NameBar.id = "p2NameBar";
+                inGameP2NameBar.maxLength = "6";
+                inGameButtons.appendChild(inGameP2NameBar);
+                let inGameP2NameOk = document.createElement("h2");
+                inGameP2NameOk.className = "popUpButton";
+                inGameP2NameOk.type = "button";
+                inGameP2NameOk.id = "popUpP2NameOk";
+                inGameP2NameOk.innerHTML = "OK";
+                inGameButtons.appendChild(inGameP2NameOk);
+                inGameP2NameOk.addEventListener("click", () => {
+                    playerCreator.names[1].innerHTML= inGameP2NameBar.value;
+                    document.body.removeChild(inGameOverlay);
+                    modeSelector.gameMode("vsPlayerTwoMode");
+                })
+            });
+        } else if (mode === "VSCPU") {
+            inGameTitle.innerHTML = "VS CPU Mode";
+            inGameTitle.style.marginLeft = "210px";
+            inGameTitleBar.appendChild(inGameTitle);
+            let inGameContent = document.createElement("div");
+            inGameContent.className = "modal-content";
+            inGameContent.id = "inGameContent";
+            inGameContent.innerHTML = "Insert Player 1 name";
+            inGameContent.style.marginLeft = "120px";
+            inGameWindow.appendChild(inGameContent);
+            let inGameButtons = document.createElement("div");
+            inGameButtons.className = "modal-buttons";
+            inGameButtons.id = "inGameButtons";
+            inGameWindow.appendChild(inGameButtons);
+            let inGameP1NameBar = document.createElement("input");
+            inGameP1NameBar.id = "p1NameBar";
+            inGameP1NameBar.maxLength = "6";
+            inGameButtons.appendChild(inGameP1NameBar);
+            let inGameP1NameOk = document.createElement("h2");
+            inGameP1NameOk.className = "popUpButton";
+            inGameP1NameOk.type = "button";
+            inGameP1NameOk.id = "popUpP1NameOk";
+            inGameP1NameOk.innerHTML = "OK";
+            inGameButtons.appendChild(inGameP1NameOk);
+            inGameP1NameOk.addEventListener("click", () => {
+                playerCreator.names[0].innerHTML = inGameP1NameBar.value;
+                document.body.removeChild(inGameOverlay);
+                modeSelector.gameMode("vsCPUMode");
+            });    
+        }
+        let inGameInfo = document.createElement("div");
+        inGameInfo.id = "modal-info";
+        inGameInfo.innerHTML = "You can reset the game mode during the match by clicking on any of the buttons to the right";
+        inGameWindow.appendChild(inGameInfo);
+    },    
 };
 
+//BUTTONS
+
+
 popUpVs.addEventListener("click", () => {
-    modeSelector.popUpVsMode();
+    modeSelector.popUpMode("popUpVsMode");
 });
-
 popUpCpu.addEventListener("click", () => {
-    modeSelector.popUpCPUMode();
+    modeSelector.popUpMode("popUpCPUMode");
 });
-
-//REFACTOR THIS WITH A FUNCTION THAT TAKES DIFFERENT PARAMETERS FOR EACH GAME MODE!
-
-const vsPlayerTwo = document.getElementById("vsplayer2");
 vsPlayerTwo.addEventListener("click", () => {
-    gameBoard.cleanBoard();
-    modeSelector.gameMode("");
-    playerCreator.names[0].innerHTML = "0";
-    playerCreator.names[1].innerHTML = "0";
-    playerCreator.scores[0].innerHTML = "0";
-    playerCreator.scores[1].innerHTML = "0";
-    let vsPlayerTwoOverlay = document.createElement("div");
-    vsPlayerTwoOverlay.id = "vsPlayerTwoOverlay";
-    vsPlayerTwoOverlay.className = "modal-overlay";
-    document.body.appendChild(vsPlayerTwoOverlay);
-    let vsPlayerTwoWindow = document.createElement("div");
-    vsPlayerTwoWindow.className ="modal-window";
-    vsPlayerTwoWindow.id = "vsPlayerTwoWindow";
-    vsPlayerTwoOverlay.appendChild(vsPlayerTwoWindow);
-    let vsPlayerTwoTitlebar = document.createElement("div");
-    vsPlayerTwoTitlebar.className ="modal-titlebar";
-    vsPlayerTwoTitlebar.id = "vsPlayerTwoWTitlebar";
-    vsPlayerTwoWindow.appendChild(vsPlayerTwoTitlebar);
-    let vsPlayerTwoTitle = document.createElement("span");
-    vsPlayerTwoTitle.className = "modal-title";
-    vsPlayerTwoTitle.id = "vsPlayerTwoTitle";
-    vsPlayerTwoTitle.innerHTML = "VS Player 2 Mode";
-    vsPlayerTwoTitle.style.marginLeft = "160px";
-    vsPlayerTwoTitlebar.appendChild(vsPlayerTwoTitle);
-    let vsPlayerTwoContent = document.createElement("div");
-    vsPlayerTwoContent.className = "modal-content";
-    vsPlayerTwoContent.id = "vsPlayerTwoContent";
-    vsPlayerTwoContent.innerHTML = "Insert Player 1 name";
-    vsPlayerTwoContent.style.marginLeft = "120px";
-    vsPlayerTwoWindow.appendChild(vsPlayerTwoContent);
-    let vsPlayerTwoButtons = document.createElement("div");
-    vsPlayerTwoButtons.className = "modal-buttons";
-    vsPlayerTwoButtons.id = "vsPlayerTwoButtons";
-    vsPlayerTwoWindow.appendChild(vsPlayerTwoButtons);
-    let vsPlayerTwoP1NameBar = document.createElement("input");
-    vsPlayerTwoP1NameBar.id = "p1NameBar";
-    vsPlayerTwoP1NameBar.maxLength = "6";
-    vsPlayerTwoButtons.appendChild(vsPlayerTwoP1NameBar);
-    let vsPlayerTwoP1NameOk = document.createElement("h2");
-    vsPlayerTwoP1NameOk.className = "popUpButton";
-    vsPlayerTwoP1NameOk.type = "button";
-    vsPlayerTwoP1NameOk.id = "popUpP1NameOk";
-    vsPlayerTwoP1NameOk.innerHTML = "OK";
-    vsPlayerTwoButtons.appendChild(vsPlayerTwoP1NameOk);
-    let vsPlayerTwoInfo = document.createElement("div");
-    vsPlayerTwoInfo.id = "modal-info";
-    vsPlayerTwoInfo.innerHTML = "You can reset the game mode during the match by clicking on any of the buttons to the right";
-    vsPlayerTwoWindow.appendChild(vsPlayerTwoInfo);
-    vsPlayerTwoP1NameOk.addEventListener("click", () => {
-        playerCreator.names[0].innerHTML = vsPlayerTwoP1NameBar.value;
-        vsPlayerTwoContent.innerHTML = "Insert Player 2 name";
-        vsPlayerTwoContent.style.marginLeft = "130px";
-        vsPlayerTwoP1NameBar.remove();
-        vsPlayerTwoP1NameOk.remove();
-        let vsPlayerTwoP2NameBar = document.createElement("input");
-        vsPlayerTwoP2NameBar.id = "p2NameBar";
-        vsPlayerTwoP2NameBar.maxLength = "6";
-        vsPlayerTwoButtons.appendChild(vsPlayerTwoP2NameBar);
-        let vsPlayerTwoP2NameOk = document.createElement("h2");
-        vsPlayerTwoP2NameOk.className = "popUpButton";
-        vsPlayerTwoP2NameOk.type = "button";
-        vsPlayerTwoP2NameOk.id = "popUpP2NameOk";
-        vsPlayerTwoP2NameOk.innerHTML = "OK";
-        vsPlayerTwoButtons.appendChild(vsPlayerTwoP2NameOk);
-        vsPlayerTwoP2NameOk.addEventListener("click", () => {
-            playerCreator.names[1].innerHTML= vsPlayerTwoP2NameBar.value;
-            document.body.removeChild(vsPlayerTwoOverlay);
-            modeSelector.gameMode("vsPlayerTwoMode");
-            
-        })
-    });
+    modeSelector.inGameMode("VSP2");    
 });
-
-
-const vsCPU = document.getElementById("vsCPU");
 vsCPU.addEventListener("click", () => {
-    gameBoard.cleanBoard();
-    modeSelector.gameMode("");
-    playerCreator.names[0].innerHTML = "0";
-    playerCreator.names[1].innerHTML = "0";
-    playerCreator.scores[0].innerHTML = "0";
-    playerCreator.scores[1].innerHTML = "0";
-    let vsCPUOverlay = document.createElement("div");
-    vsCPUOverlay.id = "vsCPUOverlay";
-    vsCPUOverlay.className = "modal-overlay";
-    document.body.appendChild(vsCPUOverlay);
-    let vsCPUWindow = document.createElement("div");
-    vsCPUWindow.className ="modal-window";
-    vsCPUWindow.id = "vsCPUWindow";
-    vsCPUOverlay.appendChild(vsCPUWindow);
-    let vsCPUTitlebar = document.createElement("div");
-    vsCPUTitlebar.className ="modal-titlebar";
-    vsCPUTitlebar.id = "vsCPUTitlebar";
-    vsCPUWindow.appendChild(vsCPUTitlebar);
-    let vsCPUTitle = document.createElement("span");
-    vsCPUTitle.className = "modal-title";
-    vsCPUTitle.id = "vsCPUTitle";
-    vsCPUTitle.innerHTML = "VS CPU Mode";
-    vsCPUTitle.style.marginLeft = "160px";
-    vsCPUTitlebar.appendChild(vsCPUTitle);
-    let vsCPUContent = document.createElement("div");
-    vsCPUContent.className = "modal-content";
-    vsCPUContent.id = "vsCPUContent";
-    vsCPUContent.innerHTML = "Insert Player 1 name";
-    vsCPUContent.style.marginLeft = "120px";
-    vsCPUWindow.appendChild(vsCPUContent);
-    let vsCPUButtons = document.createElement("div");
-    vsCPUButtons.className = "modal-buttons";
-    vsCPUButtons.id = "vsCPUButtons";
-    vsCPUWindow.appendChild(vsCPUButtons);
-    let vsCPUP1NameBar = document.createElement("input");
-    vsCPUP1NameBar.id = "p1NameBar";
-    vsCPUP1NameBar.maxLength = "6";
-    vsCPUButtons.appendChild(vsCPUP1NameBar);
-    let vsCPUP1NameOk = document.createElement("h2");
-    vsCPUP1NameOk.className = "popUpButton";
-    vsCPUP1NameOk.type = "button";
-    vsCPUP1NameOk.id = "popUpP1NameOk";
-    vsCPUP1NameOk.innerHTML = "OK";
-    vsCPUButtons.appendChild(vsCPUP1NameOk);
-    let vsCPUInfo = document.createElement("div");
-    vsCPUInfo.id = "modal-info";
-    vsCPUInfo.innerHTML = "You can reset the game mode during the match by clicking on any of the buttons to the right";
-    vsCPUWindow.appendChild(vsCPUInfo);
-    vsCPUP1NameOk.addEventListener("click", () => {
-        playerCreator.names[0].innerHTML = vsCPUP1NameBar.value;
-            document.body.removeChild(vsCPUOverlay);
-            modeSelector.gameMode("vsCPUMode");
-    });
+    modeSelector.inGameMode("VSCPU");
 });

@@ -129,10 +129,12 @@ const rules = {
 
 // MOVESETS
 
+let enabler = "";
+
 const movements = {
     movement() {
         for (let i = 0; i < gameBoard.board.length; i++) {
-            gameBoard.board[i].addEventListener("click", () => {
+            gameBoard.board[i].addEventListener("click", function move() {
                 if (gameBoard.board[i].innerHTML == "") {
                 if (playerCreator.turns[0] == "ON" && playerCreator.turns[1] == "OFF") {
                     gameBoard.board[i].innerHTML = "X";
@@ -144,8 +146,10 @@ const movements = {
                         playerCreator.turns[1] = "OFF";
                     }
                 }
-            rules.winCon();    
-            });
+            rules.winCon();
+            if (enabler === "VSCPU") {
+                gameBoard.board[i].removeEventListener("click", move);
+            }});
         }
     },
     vsCpuMovement() {
@@ -166,7 +170,7 @@ const movements = {
                 }
             }
             for (let i = 0; i < gameBoard.board.length; i++) {
-                gameBoard.board[i].addEventListener("click", () => {
+                gameBoard.board[i].addEventListener("click", function move2() {
                 if (gameBoard.board[i].innerHTML == "") {
                     gameBoard.board[i].innerHTML = "X";               
                     computerPlay();
@@ -174,6 +178,9 @@ const movements = {
                     return
                 }
                 rules.winCon();
+                if (enabler === "VSP2") {
+                    gameBoard.board[i].removeEventListener("click", move2);
+                }
             });
         }
     },
@@ -191,8 +198,7 @@ const modeSelector = {
         /* 7 */ vsCPU = document.getElementById("vsCPU"),
     ],
     gameMode(mode) {
-        if (mode === "") {
-        } else if (mode === "vsPlayerTwoMode") {
+        if (mode === "vsPlayerTwoMode") {
             gameBoard.cleanBoard();
             p1 = playerCreator.createPlayer();
             p1.name = playerCreator.names[0].innerHTML;
@@ -213,6 +219,8 @@ const modeSelector = {
             playerCreator.scores[1].innerHTML = "0";
             movements.vsCpuMovement();
             rules.turnChanger();
+            playerCreator.turns[0] = "";
+            playerCreator.turns[1] = "";
         }
     },
     reset() {
@@ -373,7 +381,6 @@ const modeSelector = {
 
 //BUTTONS
 
-
 popUpVs.addEventListener("click", () => {
     modeSelector.popUpMode("popUpVsMode");
 });
@@ -381,8 +388,10 @@ popUpCpu.addEventListener("click", () => {
     modeSelector.popUpMode("popUpCPUMode");
 });
 vsPlayerTwo.addEventListener("click", () => {
+    enabler = "VSP2";
     modeSelector.inGameMode("VSP2");    
 });
 vsCPU.addEventListener("click", () => {
+    enabler = "VSCPU";
     modeSelector.inGameMode("VSCPU");
 });

@@ -36,7 +36,7 @@ export default function Board() {
     return (
         <Grid container mt={"3rem"}>
             <Grid item xs={2} />
-            <Grid item container xs={8} sx={boardStyles}>
+            <Grid item xs={8} container sx={boardStyles}>
             {
                 gameBoard.map((g, index) => {
                     return (

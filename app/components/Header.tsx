@@ -30,5 +30,5 @@ export default function Header() {
             </Grid>
             <Grid item xs={3} />
         </Grid>
-    )
-}
+    );
+};

@@ -21,6 +21,6 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  background-color: #0f0f1b; 
+  background-color: #0f0f1b;
+  font-family: "8-bit_arcade_inmedium";
 }
-
